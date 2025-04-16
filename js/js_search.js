@@ -4,6 +4,12 @@ function search_message(){
     alert("검색을 수행합니다!");
 }
 
+// const search_message = () => {
+//     const c = '검색을 수행합니다';
+//     alert(c);
+//     };
+    
+
 function googleSearch() {
     const searchTerm = document.getElementById("search_input").value; // 검색어로 설정
     const badWords = ["비속어1", "비속어2", "비속어3", "비속어4", "비속어5"];
