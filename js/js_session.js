@@ -1,25 +1,48 @@
+// function session_set() { //세션 저장
+//     let session_id = document.querySelector("#typeEmailX");
+//     if (sessionStorage) {
+//         sessionStorage.setItem("Session_Storage_test", session_id.value);
+//     } 
+//     else {
+//         alert("로컬 스토리지 지원 x");
+//     }
+// }
+
 function session_set() { //세션 저장
-    let session_id = document.querySelector("#typeEmailX");
+    let session_id = document.querySelector("#typeEmailX"); // DOM 트리에서 ID 검색
+    let session_pass = document.querySelector("#typePasswordX"); // DOM 트리에서 pass 검색
+    
     if (sessionStorage) {
-        sessionStorage.setItem("Session_Storage_test", session_id.value);
-    } 
-    else {
-        alert("로컬 스토리지 지원 x");
+        let en_text = encrypt_text(session_pass.value);            // 비밀번호 암호화
+        sessionStorage.setItem("Session_Storage_id", session_id.value);  // ID 저장
+        sessionStorage.setItem("Session_Storage_pass", en_text);         // 암호화된 비밀번호 저장
+    } else {
+        alert("로컬 스토리지를 지원하지 않는 브라우저입니다.");
     }
 }
+    
 
+// function session_get() { //세션 읽기
+//     if (sessionStorage) {    
+//         return sessionStorage.getItem("Session_Storage_test");
+//     } else {
+//         alert("세션 스토리지 지원 x");
+//     }
+// }    
+ 
 function session_get() { //세션 읽기
-    if (sessionStorage) {    
-        return sessionStorage.getItem("Session_Storage_test");
+    if (sessionStorage) {
+    return sessionStorage.getItem("Session_Storage_pass");
     } else {
-        alert("세션 스토리지 지원 x");
+    alert("세션 스토리지 지원 x");
     }
-}    
-        
+}
+    
+
 function session_check() { //세션 검사
-    if (sessionStorage.getItem("Session_Storage_test")) {
-        alert("이미 로그인 되었습니다.");
-        location.href='../login/index_login.html'; // 로그인된 페이지로 이동
+    if (sessionStorage.getItem("Session_Storage_id")) {
+    alert("이미 로그인 되었습니다.");
+    location.href='../login/index_login.html'; // 로그인된 페이지로 이동
     }
 }
     
