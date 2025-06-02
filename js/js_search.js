@@ -1,4 +1,4 @@
-document.getElementById("search_btn").addEventListener('click', search_message);
+document.getElementById("search_button_msg").addEventListener('click', search_message);
 
 function search_message(){
     alert("검색을 수행합니다!");
@@ -11,7 +11,7 @@ function search_message(){
     
 
 function googleSearch() {
-    const searchTerm = document.getElementById("search_input").value; // 검색어로 설정
+    const searchTerm = document.getElementById("search_input").value.trim(); // 검색어로 설정
     const badWords = ["비속어1", "비속어2", "비속어3", "비속어4", "비속어5"];
     if (searchTerm.length === 0) {
         alert("검색어를 입력해주세요.");

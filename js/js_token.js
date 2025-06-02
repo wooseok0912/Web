@@ -1,7 +1,7 @@
 // JWT 비밀 키 (실제 운영 환경에서는 복잡한 키 사용 필수)
 const JWT_SECRET = "your_secret_key_here";
 
-function generateJWT(payload) {
+export function generateJWT(payload) {
     // 1. 헤더 생성 및 Base64 인코딩
     const header = { alg: "HS256", typ: "JWT" };
     const encodedHeader = btoa(JSON.stringify(header));
@@ -48,13 +48,29 @@ function isAuthenticated() { // 사용자 인증 상태 확인
     return !!payload; // 페이로드 유무로 인증 상태 판단
 }
 
-function checkAuth() { // 인증 검사 수행
-    const authenticated = isAuthenticated(); // 한 번만 검증 호출
+export function checkAuth() {
+    const token = localStorage.getItem('jwt_token');
+    if (!token) {
+        console.log('토큰 없음. 로그인 필요');
+        return false;
+    }
 
-    if (authenticated) {
-        alert('정상적으로 토큰이 검증되었습니다.');
-    } else {
-        alert('토큰 검증 에러!! 인증되지 않은 접근입니다.');
-        window.location.href = '../login/login.html'; // 로그인 페이지 이동
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        if (payload.exp > currentTime) {
+            alert("이미 로그인된 사용자입니다.");
+            window.location.href = "login_index.html";
+            return true;
+        } else {
+            alert("토큰이 만료되었습니다. 다시 로그인하세요.");
+            localStorage.removeItem('jwt_token');
+            return false;
+        }
+    } catch (e) {
+        console.error("토큰 분석 실패", e);
+        localStorage.removeItem('jwt_token');
+        return false;
     }
 }
+
